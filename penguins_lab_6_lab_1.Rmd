@@ -53,6 +53,48 @@ penguins2
 - one-way anova
 - post-hoc testing
 
+central limit theorem means our means will be normally distributed
+
+```{r}
+
+hists <- ggplot(penguins2, aes(x = flipper_length)) +
+  geom_histogram(aes(fill = common_name)) + 
+  facet_wrap(~common_name)
+
+hists
+
+qq_penguin <- ggplot(penguins2, aes(sample = flipper_length)) +
+  geom_qq(aes(color = common_name)) + 
+  facet_wrap(~common_name)
+qq_penguin
+
+
+# Levene's test for equal variances (> 2 groups.. if you have two groups use the f-test for equal variances)
+
+# we'll use the function leveneTest from the 'car' package
+
+# Null = variances are equal
+# HA = variances are not equal
+
+penguin_levene <- leveneTest(flipper_length ~ common_name, data = penguins2)
+penguin_levene
+
+# we reain the null hypothesis of equal variances (p = 0.06)
+
+penguin_var <- penguins2 %>% 
+  group_by(common_name) %>% 
+  summarize(
+    variance = var(flipper_length)
+  )
+penguin_var
+```
+
+We're asking if the samples are different enough to be from the same population.
+
+if the largest variance is less than 4x the smallest, still do the extra testing. 
+
+
+
 
 
 
