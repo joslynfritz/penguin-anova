@@ -93,6 +93,37 @@ We're asking if the samples are different enough to be from the same population.
 
 if the largest variance is less than 4x the smallest, still do the extra testing. 
 
+#3. One-way ANOVA
+
+Single factor: common_name (species)
+Numer of levels in the factor: 3 (chinstrap, adelie, gentoo)
+random variable: flipper_length (mm)
+
+is there a sig diff between flipper length of the female 3 species?
+
+```{r}
+# H0: mean flipper lengths across all species are equal
+# HA: there is AT LEAST one sig difference that exists
+
+penguin_aov <- aov(flipper_length ~ common_name, data = penguins2)
+summary(penguin_aov)
+
+penguin_aov
+
+# At least two samples were taken from populations with different means. 
+
+# There is a sig difference between mean flipper length amongst species (f(dff) = statistic, p<0.001, $\alpha$ = 0.05)... Which ones are different, all three are different, or something else?
+
+# Mean flipper length 
+
+#Post-hoc test
+
+penguin_ph <- TukeyHSD(penguin_aov)
+penguin_ph
+
+# from the tukey test, looking at the p-value, all of the mean flipper lengths are significantly different from each other. 
+# There is a sig difference between mean flipper length amongst species (f(dff) = statistic, p<0.001, $\alpha$ = 0.05) with post-hoc Tukey's HSD, $\alpha$ = 0.05. 
+```
 
 
 
